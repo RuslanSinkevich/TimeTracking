@@ -1,0 +1,35 @@
+<div class="project">
+  <h1>Список проектов</h1>
+  <button (click)="openDialogAddProject()" class="material__btn" mat-raised-button color="primary">добавить</button>
+  <app-load *ngIf="!dataLoaded"></app-load>
+  <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
+    [rows]="ProjectList">
+    <ngx-datatable-column name="Название проекта" [width]="300" prop="projectName" [flexGrow]="3">
+      <ng-template let-value="value"  let-row="row" ngx-datatable-cell-template>
+        <a [routerLink]="['/', 'tasks', row.id ]" class="nav__link nav__chapter"> {{ value }}</a>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Дата создания" prop="createDate" [flexGrow]="1">
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{ value | date:'longDate' }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Дата обновления" prop="updateDate" [flexGrow]="1">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | date:'longDate' }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="id" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value" >
+        <div class="project__btn_group">
+          <button (click)="openDialogEditProject(value.id)" class="project__btn project__btn-edit"> </button>
+          <button class="project__btn project__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>
+          <mat-menu #menu="matMenu" class="project__btn project__btn-del">
+            <button mat-menu-item (click)="delProject(value.id)">Удалить?</button>
+          </mat-menu>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+</div>

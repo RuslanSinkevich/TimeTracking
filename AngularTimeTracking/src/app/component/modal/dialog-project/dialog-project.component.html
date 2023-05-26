@@ -1,0 +1,25 @@
+<div class="form-container">
+  <h2 mat-dialog-title>
+    Добавить новый проект
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Название</mat-label>
+        <input matInput placeholder="название проекта"  formControlName="projectName">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary"
+    (click)="submit()"
+    [disabled]="!form.valid"
+    >
+      Добавить
+    </button>
+    <button mat-raised-button (click)="dialogRef.close()" >
+      Закрыть
+    </button>
+
+  </mat-dialog-actions>
+</div>

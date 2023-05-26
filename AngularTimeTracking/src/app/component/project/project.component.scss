@@ -1,0 +1,24 @@
+.project__btn_group{
+  display: flex;
+  align-items: center;
+}
+
+.project__btn{
+  width: 18px;
+  height: 18px;
+  background-size: cover; /* Масштабируем фон */
+}
+
+.project__btn-edit{
+  margin-right: 18px;
+  background-image: url("/assets/images/edit.png");
+}
+
+.project__btn-del{
+  background-image: url("/assets/images/delete.png");
+}
+
+.material__btn{
+  margin: 10px;
+}
+

@@ -1,0 +1,22 @@
+<div class="form-container">
+  <h2 mat-dialog-title>
+    Изменить название проекта ({{ data.project.projectName }})
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Название</mat-label>
+        <input matInput placeholder="название проекта" matInput formControlName="projectName">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="!form.valid">
+      Изменить
+    </button>
+    <button mat-raised-button (click)="dialogRef.close()">
+      Закрыть
+    </button>
+
+  </mat-dialog-actions>
+</div>

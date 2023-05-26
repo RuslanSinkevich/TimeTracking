@@ -1,0 +1,27 @@
+.page__menu{
+    height: 100vh;
+    padding: 10px;
+    width: 165px;
+    color: white;
+    background: linear-gradient(#052433 0%,#0b5174 100%);
+  }
+
+  .nav__title{
+    box-sizing: border-box;
+    font-size: 20px;
+    padding: 12px 20px 12px 12px;
+    height: 46px;
+    line-height: 22px;
+    color: #fff;
+  }
+
+  .nav__link{
+    color: #c0d0e4;
+    display: inline-block;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+    width: 100%;
+    height: 40px;
+    padding: 12px 20px 12px 12px;
+  }
