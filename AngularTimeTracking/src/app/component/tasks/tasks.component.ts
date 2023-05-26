@@ -4,10 +4,10 @@ import { RestApiService } from 'src/app/services/restApi/restApi.service';
 import { DialogProjectComponent } from '../modal/dialog-project/dialog-project.component';
 import { Observable, map, tap } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { DialogProjectEditComponent } from '../modal/dialog-project-edit/dialog-project-edit.component';
 import { ITasks } from 'src/app/models/Tasks';
 import { ActivatedRoute } from '@angular/router';
 import { ITasksVM } from 'src/app/models/TasksVM';
+import { DialogTasksComponent } from '../modal/dialog-tasks/dialog-tasks.component';
 
 @Component({
   selector: 'app-tasks',
@@ -17,6 +17,7 @@ import { ITasksVM } from 'src/app/models/TasksVM';
 export class TasksComponent implements OnInit {
   TasksList: ITasks[] = [];
   projectId: string = '';
+  projectName: string = '';
 
   dataLoaded = false; // Флаг, указывающий на загрузку данных
 
@@ -44,12 +45,13 @@ export class TasksComponent implements OnInit {
 
   }
 
-  getAllTasks(id:string){
+  getAllTasks(projectId:string){
     this.restApiService
-    .getAllItemsList<ITasksVM>('Tasks/GetAllFromProject/' + id)
+    .getAllItemsList<ITasksVM>('Tasks/GetAllFromProject/' + projectId)
     .subscribe((list: ITasksVM[]) => {
       this.TasksList = list;
       this.dataLoaded = true;
+      this.projectName = list[0].project.projectName;
     });
   }
 
@@ -106,7 +108,7 @@ export class TasksComponent implements OnInit {
   }
 
   openDialogAddTasks(): void {
-    let dialogRef = this.dialog.open(DialogProjectComponent, {
+    let dialogRef = this.dialog.open(DialogTasksComponent, {
       width: '350px',
       data: {},
     });
@@ -119,7 +121,7 @@ export class TasksComponent implements OnInit {
 
   openDialogEditProject(id: string): void {
     this.getTasks(id).subscribe((tasks) => {
-      let dialogRef = this.dialog.open(DialogProjectEditComponent, {
+      let dialogRef = this.dialog.open(DialogTasksComponent, {
         width: '350px',
         data: { tasks: tasks },
       });

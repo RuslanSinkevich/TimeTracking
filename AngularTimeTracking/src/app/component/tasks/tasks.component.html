@@ -1,15 +1,15 @@
 <div class="project">
-  <h1>Список задач</h1>
+  <h1>Список задач -  проекта ({{projectName}})</h1>
   <button (click)="openDialogAddTasks()" class="material__btn" mat-raised-button color="primary">добавить</button>
   <app-load *ngIf="!dataLoaded"></app-load>
   <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
     [rows]="TasksList">
-    <ngx-datatable-column name="Название задачи" [width]="300" prop="tasksName" [flexGrow]="3">
+    <ngx-datatable-column name="Название задачи"  prop="tasksName" [flexGrow]="3">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Название проекта" [width]="300" prop="project.projectName" [flexGrow]="3">
+    <ngx-datatable-column name="Название проекта" prop="project.projectName" [flexGrow]="3">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
       </ng-template>
@@ -29,13 +29,13 @@
         {{ value | date:'longDate' }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column prop="" [sortable]="false">
+    <ngx-datatable-column prop="id" name=""  [sortable]="false">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
-        <div class="project__btn_group">
-          <button (click)="openDialogEditProject(value.id)" class="project__btn project__btn-edit"> </button>
-          <button class="project__btn project__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>
-          <mat-menu #menu="matMenu" class="project__btn project__btn-del">
-            <button mat-menu-item (click)="delTasks(value.id)">Удалить?</button>
+        <div class="editor__btn_group">
+          <button (click)="openDialogEditProject(value)" class="editor__btn editor__btn-edit"> </button>
+          <button class="editor__btn editor__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item class="editor__btn editor__btn-del" (click)="delTasks(value)">Удалить?</button>
           </mat-menu>
         </div>
       </ng-template>

@@ -1,0 +1,19 @@
+.editor__btn_group{
+  display: flex;
+  align-items: center;
+}
+
+.editor__btn{
+  width: 18px;
+  height: 18px;
+  background-size: cover; /* Масштабируем фон */
+}
+
+.editor__btn-edit{
+  margin-right: 18px;
+  background-image: url("/assets/images/edit.png");
+}
+
+.editor__btn-del{
+  background-image: url("/assets/images/delete.png");
+}

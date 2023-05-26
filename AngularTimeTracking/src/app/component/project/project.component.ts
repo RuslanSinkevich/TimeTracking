@@ -15,7 +15,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 })
 
 export class ProjectComponent implements OnInit {
-  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger | undefined;
+  @ViewChild('menuPTrigger') menuPTrigger: MatMenuTrigger | undefined;
 
   ProjectList: IProject[] = [];
 
@@ -103,6 +103,8 @@ export class ProjectComponent implements OnInit {
   }
 
   openDialogEditProject(id: string): void {
+    console.log(id);
+
     this.getProject(id).subscribe((project) => {
       let dialogRef = this.dialog.open(DialogProjectEditComponent, {
         width: '350px',
@@ -112,7 +114,6 @@ export class ProjectComponent implements OnInit {
         if (result != undefined) {
           project.projectName = result.form.projectName;
           project.updateDate = new Date();
-
           this.restApiService
             .editValue<IProject>(project, 'Project/Update')
             .subscribe(() => {

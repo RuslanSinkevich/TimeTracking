@@ -19,13 +19,14 @@
         {{ value | date:'longDate' }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column prop="id" [sortable]="false">
+    <ngx-datatable-column prop="id"  name=""   [sortable]="false">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value" >
-        <div class="project__btn_group">
-          <button (click)="openDialogEditProject(value.id)" class="project__btn project__btn-edit"> </button>
-          <button class="project__btn project__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>
-          <mat-menu #menu="matMenu" class="project__btn project__btn-del">
-            <button mat-menu-item (click)="delProject(value.id)">Удалить?</button>
+        <div class="editor__btn_group">
+          <button (click)="openDialogEditProject(value)" class="editor__btn editor__btn-edit"> </button>
+
+          <button class="editor__btn editor__btn-del" [matMenuTriggerFor]="menu" #menuPTrigger></button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item class="editor__btn editor__btn-del" (click)="delProject(value)">Удалить?</button>
           </mat-menu>
         </div>
       </ng-template>
