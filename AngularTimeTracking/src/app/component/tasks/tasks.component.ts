@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ITasks } from 'src/app/models/Tasks';
 import { ActivatedRoute } from '@angular/router';
 import { ITasksVM } from 'src/app/models/TasksVM';
+import { ISelectOption } from 'src/app/models/selected';
 import { DialogTasksComponent } from '../modal/dialog-tasks/dialog-tasks.component';
 
 @Component({
@@ -16,8 +17,10 @@ import { DialogTasksComponent } from '../modal/dialog-tasks/dialog-tasks.compone
 })
 export class TasksComponent implements OnInit {
   TasksList: ITasks[] = [];
-  projectId: string = '';
+  FilterTasksList: ITasks[] = [];
   projectName: string = '';
+  projectList: ISelectOption[] = [];
+  selectProject: string = '0';
 
   dataLoaded = false; // Флаг, указывающий на загрузку данных
 
@@ -39,20 +42,45 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.projectId = params['id']; // Здесь получаем значение параметра
-      this.getAllTasks(this.projectId);
+      let projectId = params['id'];
+      if (projectId === undefined) {
+        projectId = '';
+      }
+      this.getAllTasks(projectId);
     });
-
   }
 
-  getAllTasks(projectId:string){
+  filterTasksList() {
+    if (this.selectProject && this.selectProject != '0') {
+      this.TasksList = this.FilterTasksList;
+      console.log(this.TasksList);
+      this.TasksList = this.TasksList.filter(
+        (task: ITasks) => task.projectId === this.selectProject
+      );
+    } else {
+      this.TasksList = this.FilterTasksList;
+    }
+  }
+
+  getAllTasks(projectId: string) {
     this.restApiService
-    .getAllItemsList<ITasksVM>('Tasks/GetAllFromProject/' + projectId)
-    .subscribe((list: ITasksVM[]) => {
-      this.TasksList = list;
-      this.dataLoaded = true;
-      this.projectName = list[0].project.projectName;
-    });
+      .getAllItemsList<ITasksVM>('Tasks/GetAll/' + projectId)
+      .subscribe((list: ITasksVM[]) => {
+        this.TasksList = list;
+        this.FilterTasksList = this.TasksList;
+        this.dataLoaded = true;
+        this.projectName = projectId ? '' : list[0].project.projectName;
+        this.projectList = list
+          .map((item) => item.project)
+          .filter(
+            (project, index, self) =>
+              index === self.findIndex((p) => p.projectName === project.projectName)
+          )
+          .map((project) => ({
+            name: project.projectName,
+            value: project.id,
+          }));
+      });
   }
 
   addTasks(tasksName: string, projectId: string) {
@@ -70,6 +98,7 @@ export class TasksComponent implements OnInit {
         .pipe(
           tap(() => {
             this.TasksList = [...this.TasksList, this.tasks];
+            this.FilterTasksList = this.TasksList;
           })
         )
         .subscribe();
@@ -80,12 +109,12 @@ export class TasksComponent implements OnInit {
     this.restApiService
       .removeValue<ITasks>(id, 'Tasks/Delete?id=')
       .pipe(
-        tap(
-          () =>
-            (this.TasksList = this.TasksList.filter(
-              (item: ITasks) => item.id !== id
-            ))
-        )
+        tap(() => {
+          this.TasksList = this.TasksList.filter(
+            (item: ITasks) => item.id !== id
+          );
+          this.FilterTasksList = this.TasksList;
+        })
       )
       .subscribe();
   }
@@ -140,6 +169,7 @@ export class TasksComponent implements OnInit {
                 return item;
               });
               this.TasksList = [...updatedProjectList];
+              this.FilterTasksList = this.TasksList;
             });
         }
       });

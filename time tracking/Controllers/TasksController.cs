@@ -16,9 +16,16 @@ namespace time_tracking.Controllers
         }
 
         [HttpGet("{projectId}")]
-        public async Task<IActionResult> GetAllFromProject(Guid projectId)
+        public async Task<IActionResult> GetAll(Guid projectId)
         {
             var result = await _serviceTasks.GetAllFromProjectAsync(projectId);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _serviceTasks.GetAllFromProjectAsync(new Guid("00000000-0000-0000-0000-000000000000"));
             return Ok(result);
         }
 

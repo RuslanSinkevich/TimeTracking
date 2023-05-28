@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule, NativeDateAdapter, DateAdapter  } from '@angular/material/core';
 import { DialogProjectEditComponent } from './component/modal/dialog-project-edit/dialog-project-edit.component';
+import {MatSelectModule} from '@angular/material/select';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'project', pathMatch: 'full' },
       { path: 'project', component: ProjectComponent },
+      { path: 'tasks', component: TasksComponent },
       { path: 'tasks/:id', component: TasksComponent },
     ]
   }
@@ -58,7 +60,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule
 
   ],
   providers: [{ provide: DateAdapter, useClass: NativeDateAdapter }],

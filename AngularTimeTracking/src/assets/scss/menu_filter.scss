@@ -1,0 +1,21 @@
+.menu__filter {
+  border: solid 1px #0b5174;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.menu__filter_legend {
+  color: #6d6d6d;
+  margin-left: 10px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.mat-form-field {
+  padding: 10px 0;
+}
+
+.menu__filter_element {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+}

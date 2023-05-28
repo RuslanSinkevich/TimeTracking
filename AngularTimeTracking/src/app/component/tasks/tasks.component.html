@@ -1,10 +1,24 @@
 <div class="project">
-  <h1>Список задач -  проекта ({{projectName}})</h1>
+  <h1>Список задач <span *ngIf="projectName">- проекта ({{projectName}})</span></h1>
   <button (click)="openDialogAddTasks()" class="material__btn" mat-raised-button color="primary">добавить</button>
+  <fieldset class="menu__filter">
+    <legend class="menu__filter_legend">Фильтры</legend>
+    <div class="menu__filter_element">
+      <span>Проекты</span>
+    <mat-form-field *ngIf="selectProject">
+      <mat-select  [(value)]="selectProject"  (selectionChange)="filterTasksList()">
+        <mat-option  value="0" >Все</mat-option>
+        <mat-option *ngFor="let project of projectList" [value]="project.value">
+          {{project.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  </fieldset>
   <app-load *ngIf="!dataLoaded"></app-load>
   <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
     [rows]="TasksList">
-    <ngx-datatable-column name="Название задачи"  prop="tasksName" [flexGrow]="3">
+    <ngx-datatable-column name="Название задачи" prop="tasksName" [flexGrow]="3">
       <ng-template let-value="value" ngx-datatable-cell-template>
         {{ value }}
       </ng-template>
@@ -29,12 +43,12 @@
         {{ value | date:'longDate' }}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column prop="id" name=""  [sortable]="false">
+    <ngx-datatable-column prop="id" name="" [sortable]="false">
       <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
         <div class="editor__btn_group">
           <button (click)="openDialogEditProject(value)" class="editor__btn editor__btn-edit"> </button>
           <button class="editor__btn editor__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>
-          <mat-menu #menu="matMenu" >
+          <mat-menu #menu="matMenu">
             <button mat-menu-item class="editor__btn editor__btn-del" (click)="delTasks(value)">Удалить?</button>
           </mat-menu>
         </div>
