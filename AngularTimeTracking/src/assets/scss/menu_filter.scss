@@ -14,8 +14,14 @@
   padding: 10px 0;
 }
 
+.menu__filter_group {
+  display: flex;
+}
+
+
 .menu__filter_element {
   display: flex;
   flex-direction: column;
-  width: 220px;
+  width: 260px;
+  margin-right: 25px;
 }

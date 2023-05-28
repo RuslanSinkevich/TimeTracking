@@ -22,6 +22,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule, NativeDateAdapter, DateAdapter  } from '@angular/material/core';
 import { DialogProjectEditComponent } from './component/modal/dialog-project-edit/dialog-project-edit.component';
 import {MatSelectModule} from '@angular/material/select';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
 
 const routes: Routes = [
   {
@@ -34,6 +37,8 @@ const routes: Routes = [
     ]
   }
 ];
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -64,7 +69,9 @@ const routes: Routes = [
     MatSelectModule
 
   ],
-  providers: [{ provide: DateAdapter, useClass: NativeDateAdapter }],
+  providers: [{ provide: DateAdapter, useClass: NativeDateAdapter },
+    { provide: LOCALE_ID, useValue: 'ru' }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

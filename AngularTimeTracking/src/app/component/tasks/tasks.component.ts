@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ITasksVM } from 'src/app/models/TasksVM';
 import { ISelectOption } from 'src/app/models/selected';
 import { DialogTasksComponent } from '../modal/dialog-tasks/dialog-tasks.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-tasks',
@@ -21,6 +22,11 @@ export class TasksComponent implements OnInit {
   projectName: string = '';
   projectList: ISelectOption[] = [];
   selectProject: string = '0';
+  rangeDate = {
+    start: new FormControl(null),
+    end: new FormControl(null),
+  };
+
 
   dataLoaded = false; // Флаг, указывающий на загрузку данных
 
@@ -53,13 +59,17 @@ export class TasksComponent implements OnInit {
   filterTasksList() {
     if (this.selectProject && this.selectProject != '0') {
       this.TasksList = this.FilterTasksList;
-      console.log(this.TasksList);
       this.TasksList = this.TasksList.filter(
         (task: ITasks) => task.projectId === this.selectProject
-      );
+      ).filter( (task: ITasks) => task.startDate === this.rangeDate.start);
     } else {
       this.TasksList = this.FilterTasksList;
     }
+  }
+
+  clearDate() {
+    this.rangeDate.start.setValue(null)
+    this.rangeDate.end.setValue(null)
   }
 
   getAllTasks(projectId: string) {
@@ -74,7 +84,8 @@ export class TasksComponent implements OnInit {
           .map((item) => item.project)
           .filter(
             (project, index, self) =>
-              index === self.findIndex((p) => p.projectName === project.projectName)
+              index ===
+              self.findIndex((p) => p.projectName === project.projectName)
           )
           .map((project) => ({
             name: project.projectName,

@@ -3,17 +3,37 @@
   <button (click)="openDialogAddTasks()" class="material__btn" mat-raised-button color="primary">добавить</button>
   <fieldset class="menu__filter">
     <legend class="menu__filter_legend">Фильтры</legend>
-    <div class="menu__filter_element">
-      <span>Проекты</span>
-    <mat-form-field *ngIf="selectProject">
-      <mat-select  [(value)]="selectProject"  (selectionChange)="filterTasksList()">
-        <mat-option  value="0" >Все</mat-option>
-        <mat-option *ngFor="let project of projectList" [value]="project.value">
-          {{project.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+    <div class="menu__filter_group">
+      <div class="menu__filter_element">
+        <span>Проекты</span>
+        <mat-form-field *ngIf="selectProject">
+          <mat-select [(value)]="selectProject" (selectionChange)="filterTasksList()">
+            <mat-option value="0">Все</mat-option>
+            <mat-option *ngFor="let project of projectList" [value]="project.value">
+              {{project.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="menu__filter_element">
+        <span>По дате </span>
+        <mat-form-field>
+          <mat-date-range-input
+            [rangePicker]="picker">
+            <input  [formControl]="rangeDate.start" matStartDate placeholder="Начало">
+            <input [formControl]="rangeDate.end" #matEndDate matEndDate placeholder="Конец">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker>
+            <mat-date-range-picker-actions>
+              <button mat-button matDateRangePickerCancel (click)="clearDate( )" >Сброс</button>
+              <button mat-button matDateRangePickerCancel>Отмена</button>
+              <button mat-raised-button color="primary" matDateRangePickerApply>Добавить</button>
+            </mat-date-range-picker-actions>
+          </mat-date-range-picker>
+        </mat-form-field>
+      </div>
+    </div>
   </fieldset>
   <app-load *ngIf="!dataLoaded"></app-load>
   <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
