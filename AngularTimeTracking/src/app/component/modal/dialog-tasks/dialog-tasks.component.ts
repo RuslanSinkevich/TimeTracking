@@ -1,8 +1,7 @@
 import { Component, Inject  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogProjectComponent } from '../dialog-project/dialog-project.component';
-import { ITasks } from 'src/app/models/Tasks';
+import { ISelectOption } from 'src/app/models/selected';
 
 @Component({
   selector: 'app-dialog-tasks',
@@ -14,10 +13,11 @@ export class DialogTasksComponent {
 
   constructor(public  dialogRef: MatDialogRef<DialogTasksComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { tasks: ITasks, nameComp: string}) {
+    @Inject(MAT_DIALOG_DATA) public data: {  projectList: ISelectOption[]}) {
 
     this.form = this.fb.group({
       tasksName: ['', Validators.required],
+      projectId: ['', Validators.required],
     });
   }
 

@@ -1,3 +1,32 @@
-<p>
-  dialog-tasks works!
-</p>
+<div class="form-container">
+  <h2 mat-dialog-title>
+    Добавить новый проект
+  </h2>
+
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-label>Название</mat-label>
+        <input matInput placeholder="название проекта" formControlName="tasksName">
+      </mat-form-field>
+      <div style="height: 20px;"></div>
+      <mat-form-field>
+        <mat-label>Проект</mat-label>
+        <mat-select  formControlName="projectId">
+          <mat-option *ngFor="let project of data.projectList" [value]="project.value">
+            {{project.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="submit()" [disabled]="!form.valid">
+      Добавить
+    </button>
+    <button mat-raised-button (click)="dialogRef.close()">
+      Закрыть
+    </button>
+
+  </mat-dialog-actions>
+</div>

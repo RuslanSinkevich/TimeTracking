@@ -3,7 +3,7 @@ export interface ITasks{
   tasksName: string,
   projectId: string,
   startDate: Date,
-  cancelDate: Date,
+  cancelDate: Date | undefined,
   createDate: Date,
   updateDate: Date
 }

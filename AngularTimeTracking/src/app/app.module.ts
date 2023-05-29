@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogProjectComponent } from './component/modal/dialog-project/dialog-project.component';
+import { DialogTasksComponent } from './component/modal/dialog-tasks/dialog-tasks.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule, NativeDateAdapter, DateAdapter  } from '@angular/material/core';
@@ -51,6 +52,7 @@ registerLocaleData(localeRu);
     LoadComponent,
     DialogProjectComponent,
     DialogProjectEditComponent,
+    DialogTasksComponent
   ],
   imports: [
     BrowserModule,

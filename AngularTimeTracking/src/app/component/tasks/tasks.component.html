@@ -18,17 +18,17 @@
       <div class="menu__filter_element">
         <span>По дате </span>
         <mat-form-field>
-          <mat-date-range-input
-            [rangePicker]="picker">
-            <input  [formControl]="rangeDate.start" matStartDate placeholder="Начало">
+          <mat-date-range-input [rangePicker]="picker">
+            <input [formControl]="rangeDate.start" matStartDate placeholder="Начало">
             <input [formControl]="rangeDate.end" #matEndDate matEndDate placeholder="Конец">
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker>
             <mat-date-range-picker-actions>
-              <button mat-button matDateRangePickerCancel (click)="clearDate( )" >Сброс</button>
+              <button mat-button matDateRangePickerCancel (click)="clearDate()">Сброс</button>
               <button mat-button matDateRangePickerCancel>Отмена</button>
-              <button mat-raised-button color="primary" matDateRangePickerApply>Добавить</button>
+              <button mat-raised-button color="primary" (click)="filterTasksList()"
+                matDateRangePickerApply>Добавить</button>
             </mat-date-range-picker-actions>
           </mat-date-range-picker>
         </mat-form-field>
@@ -60,7 +60,10 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Дата закрытия" prop="cancelDate" [flexGrow]="1">
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-        {{ value | date:'longDate' }}
+        <span *ngIf="value === '0001-01-01T00:00:00'"></span>
+        <span *ngIf="value != '0001-01-01T00:00:00'">
+          {{ value | date:'longDate' }}
+        </span>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column prop="id" name="" [sortable]="false">

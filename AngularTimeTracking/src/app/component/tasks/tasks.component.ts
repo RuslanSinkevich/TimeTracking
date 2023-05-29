@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RestApiService } from 'src/app/services/restApi/restApi.service';
-import { DialogProjectComponent } from '../modal/dialog-project/dialog-project.component';
 import { Observable, map, tap } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { ITasks } from 'src/app/models/Tasks';
@@ -16,6 +15,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })
+
 export class TasksComponent implements OnInit {
   TasksList: ITasks[] = [];
   FilterTasksList: ITasks[] = [];
@@ -27,7 +27,6 @@ export class TasksComponent implements OnInit {
     end: new FormControl(null),
   };
 
-
   dataLoaded = false; // Флаг, указывающий на загрузку данных
 
   tasks: ITasks = {
@@ -35,7 +34,7 @@ export class TasksComponent implements OnInit {
     tasksName: '',
     projectId: '',
     startDate: new Date(),
-    cancelDate: new Date(),
+    cancelDate: undefined,
     createDate: new Date(),
     updateDate: new Date(),
   };
@@ -57,19 +56,32 @@ export class TasksComponent implements OnInit {
   }
 
   filterTasksList() {
+    this.TasksList = this.FilterTasksList;
     if (this.selectProject && this.selectProject != '0') {
-      this.TasksList = this.FilterTasksList;
       this.TasksList = this.TasksList.filter(
         (task: ITasks) => task.projectId === this.selectProject
-      ).filter( (task: ITasks) => task.startDate === this.rangeDate.start);
-    } else {
-      this.TasksList = this.FilterTasksList;
+      );
+    }
+    if (
+      this.rangeDate.start.value != null &&
+      this.rangeDate.end.value != null
+    ) {
+      let start: Date = this.rangeDate.start.value as Date;
+      let end: Date = this.rangeDate.end.value as Date;
+      start.setHours(0, 0, 0, 0); // Установка времени начала дня в 0 часов, 0 минут, 0 секунд, 0 миллисекунд
+      end.setHours(23, 59, 59, 999); // Установка времени конца дня в 23 часа, 59 минут, 59 секунд, 999 миллисекунд
+     this.TasksList = this.TasksList.filter(
+        (task: ITasks) =>
+          new Date(task.createDate).valueOf() >= start.valueOf() &&
+           new Date(task.createDate).valueOf() < end.valueOf()
+      );
     }
   }
 
   clearDate() {
-    this.rangeDate.start.setValue(null)
-    this.rangeDate.end.setValue(null)
+    this.rangeDate.start.setValue(null);
+    this.rangeDate.end.setValue(null);
+    this.filterTasksList();
   }
 
   getAllTasks(projectId: string) {
@@ -91,7 +103,7 @@ export class TasksComponent implements OnInit {
             name: project.projectName,
             value: project.id,
           }));
-      });
+              });
   }
 
   addTasks(tasksName: string, projectId: string) {
@@ -101,15 +113,14 @@ export class TasksComponent implements OnInit {
       this.tasks.projectId = projectId;
       this.tasks.createDate = new Date();
       this.tasks.updateDate = new Date();
-      this.tasks.cancelDate = new Date(+0);
+      this.tasks.cancelDate = undefined;
       this.tasks.startDate = new Date();
 
       this.restApiService
         .addValue<ITasks>(this.tasks, 'Tasks/Create')
         .pipe(
           tap(() => {
-            this.TasksList = [...this.TasksList, this.tasks];
-            this.FilterTasksList = this.TasksList;
+            this.getAllTasks("00000000-0000-0000-0000-000000000000");
           })
         )
         .subscribe();
@@ -150,7 +161,9 @@ export class TasksComponent implements OnInit {
   openDialogAddTasks(): void {
     let dialogRef = this.dialog.open(DialogTasksComponent, {
       width: '350px',
-      data: {},
+      data: {
+        projectList: this.projectList,
+      },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result != undefined) {
