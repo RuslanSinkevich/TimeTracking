@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using time_tracking.DataAccess.Repository.IRepository;
 using time_tracking.Models;
-using time_tracking.Models.ViewModel;
 
 namespace time_tracking.DataAccess.Repository
 {
