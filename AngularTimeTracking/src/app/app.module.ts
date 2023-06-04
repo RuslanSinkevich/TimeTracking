@@ -14,6 +14,7 @@ import { MatButtonModule} from '@angular/material/button';
 import { MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogProjectComponent } from './component/modal/dialog-project/dialog-project.component';
@@ -26,6 +27,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { TasksCommentsComponent } from './component/tasks-comments/tasks-comments.component';
+import { FormsModule } from '@angular/forms';
+import { DialogCommentsComponent } from './component/modal/dialog-comments/dialog-comments.component';
+
 
 const routes: Routes = [
   {
@@ -35,6 +40,8 @@ const routes: Routes = [
       { path: 'project', component: ProjectComponent },
       { path: 'tasks', component: TasksComponent },
       { path: 'tasks/:id', component: TasksComponent },
+      { path: 'tasksComments/:id', component: TasksCommentsComponent },
+
     ]
   }
 ];
@@ -52,7 +59,9 @@ registerLocaleData(localeRu);
     LoadComponent,
     DialogProjectComponent,
     DialogProjectEditComponent,
-    DialogTasksComponent
+    DialogTasksComponent,
+    TasksCommentsComponent,
+    DialogCommentsComponent
   ],
   imports: [
     BrowserModule,
@@ -63,12 +72,14 @@ registerLocaleData(localeRu);
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    FormsModule
 
   ],
   providers: [{ provide: DateAdapter, useClass: NativeDateAdapter },

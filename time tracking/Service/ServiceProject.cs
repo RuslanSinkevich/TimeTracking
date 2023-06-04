@@ -34,7 +34,7 @@ namespace time_tracking.Service
         {
             var entity = await _projectRepository.GetAsync(project.Id);
             entity.ProjectName = project.ProjectName;
-            entity.UpdateDate = new DateTime();
+            entity.UpdateDate = project.UpdateDate;
             await _projectRepository.UpdateAsync(entity);
         }
 

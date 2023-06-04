@@ -103,8 +103,6 @@ export class ProjectComponent implements OnInit {
   }
 
   openDialogEditProject(id: string): void {
-    console.log(id);
-
     this.getProject(id).subscribe((project) => {
       let dialogRef = this.dialog.open(DialogProjectEditComponent, {
         width: '350px',

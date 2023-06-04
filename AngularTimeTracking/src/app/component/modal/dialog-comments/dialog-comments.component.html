@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>
+  Добавить новый проект
+</h2>
+<mat-dialog-content>
+  <button (click)="isTextAreaSelected = !isTextAreaSelected">Toggle Input Type</button>
+
+  <form [formGroup]="form">
+    <textarea *ngIf="isTextAreaSelected" placeholder="Comment Description" formControlName="commentDescription"></textarea>
+    <input *ngIf="!isTextAreaSelected" type="file" (change)="onFileSelected($event)" formControlName="content">
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary"
+  (click)="submit()"
+  [disabled]="!form.valid"
+  >
+    Добавить
+  </button>
+  <button mat-raised-button (click)="dialogRef.close()" >
+    Закрыть
+  </button>
+
+</mat-dialog-actions>

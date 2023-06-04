@@ -39,6 +39,8 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddHealthChecks();
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

@@ -4,7 +4,7 @@
   <fieldset class="menu__filter">
     <legend class="menu__filter_legend">Фильтры</legend>
     <div class="menu__filter_group">
-      <div class="menu__filter_element">
+      <div *ngIf="projectList.length > 1"  class="menu__filter_element">
         <span>Проекты</span>
         <mat-form-field *ngIf="selectProject">
           <mat-select [(value)]="selectProject" (selectionChange)="filterTasksList()">
@@ -28,7 +28,7 @@
               <button mat-button matDateRangePickerCancel (click)="clearDate()">Сброс</button>
               <button mat-button matDateRangePickerCancel>Отмена</button>
               <button mat-raised-button color="primary" (click)="filterTasksList()"
-                matDateRangePickerApply>Добавить</button>
+                matDateRangePickerApply>Найти</button>
             </mat-date-range-picker-actions>
           </mat-date-range-picker>
         </mat-form-field>
@@ -39,8 +39,8 @@
   <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
     [rows]="TasksList">
     <ngx-datatable-column name="Название задачи" prop="tasksName" [flexGrow]="3">
-      <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value }}
+      <ng-template let-value="value"  let-row="row" ngx-datatable-cell-template>
+        <a [routerLink]="['/', 'tasksComments', row.id ]" class="nav__link nav__chapter"> {{ value }}</a>
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Название проекта" prop="project.projectName" [flexGrow]="3">
@@ -67,7 +67,7 @@
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column prop="id" name="" [sortable]="false">
-      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row"  let-value="value">
         <div class="editor__btn_group">
           <button (click)="openDialogEditProject(value)" class="editor__btn editor__btn-edit"> </button>
           <button class="editor__btn editor__btn-del" [matMenuTriggerFor]="menu" #menuTrigger></button>

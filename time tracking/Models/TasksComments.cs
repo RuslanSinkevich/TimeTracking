@@ -9,6 +9,7 @@ namespace time_tracking.Models
         public Guid TasksId { get; set; }
         [ForeignKey("TasksId")] public Tasks? Tasks { get; set; }
         public byte CommentType { get; set; }
+        [NotMapped]
         public byte[]? Content { get; set; }
     }
 }

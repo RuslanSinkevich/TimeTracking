@@ -1,0 +1,25 @@
+<div class="project">
+  <h1>Список проектов</h1>
+  <button (click)="openDialogAddComponent()" class="material__btn" mat-raised-button color="primary">добавить</button>
+  <app-load *ngIf="!dataLoaded"></app-load>
+  <ngx-datatable class="material fullscreen" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
+    [rows]="TasksComments">
+    <ngx-datatable-column name="" [width]="300" prop="content" [flexGrow]="3">
+      <ng-template let-value="value"  let-row="row" ngx-datatable-cell-template>
+         {{ value }}
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column prop="id"  name=""   [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-row="row" let-value="value" >
+        <div class="editor__btn_group">
+          <button class="editor__btn editor__btn-del" [matMenuTriggerFor]="menu" #menuPTrigger></button>
+          <mat-menu #menu="matMenu" >
+            <button mat-menu-item class="editor__btn editor__btn-del" (click)="delTasksComments(value)">Удалить?</button>
+          </mat-menu>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+</div>

@@ -15,7 +15,6 @@ import { FormControl } from '@angular/forms';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })
-
 export class TasksComponent implements OnInit {
   TasksList: ITasks[] = [];
   FilterTasksList: ITasks[] = [];
@@ -62,18 +61,22 @@ export class TasksComponent implements OnInit {
         (task: ITasks) => task.projectId === this.selectProject
       );
     }
-    if (
-      this.rangeDate.start.value != null &&
-      this.rangeDate.end.value != null
-    ) {
-      let start: Date = this.rangeDate.start.value as Date;
-      let end: Date = this.rangeDate.end.value as Date;
-      start.setHours(0, 0, 0, 0); // Установка времени начала дня в 0 часов, 0 минут, 0 секунд, 0 миллисекунд
-      end.setHours(23, 59, 59, 999); // Установка времени конца дня в 23 часа, 59 минут, 59 секунд, 999 миллисекунд
-     this.TasksList = this.TasksList.filter(
+    let startValue = this.rangeDate.start.value;
+    let endValue = this.rangeDate.end.value;
+    if (endValue == null) {
+      endValue = startValue;
+    }
+    if (startValue != null && endValue != null) {
+      // ссылаемся не на ссылку а создаём новый объект
+      let start: Date = new Date(startValue);
+      let end: Date = new Date(endValue);
+
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
+
+      this.TasksList = this.TasksList.filter(
         (task: ITasks) =>
-          new Date(task.createDate).valueOf() >= start.valueOf() &&
-           new Date(task.createDate).valueOf() < end.valueOf()
+          new Date(task.createDate) > start && new Date(task.createDate) < end
       );
     }
   }
@@ -103,7 +106,11 @@ export class TasksComponent implements OnInit {
             name: project.projectName,
             value: project.id,
           }));
-              });
+      });
+  }
+
+  closedTasks(projectId: string){
+
   }
 
   addTasks(tasksName: string, projectId: string) {
@@ -120,7 +127,7 @@ export class TasksComponent implements OnInit {
         .addValue<ITasks>(this.tasks, 'Tasks/Create')
         .pipe(
           tap(() => {
-            this.getAllTasks("00000000-0000-0000-0000-000000000000");
+            this.getAllTasks('00000000-0000-0000-0000-000000000000');
           })
         )
         .subscribe();
